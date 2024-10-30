@@ -23,8 +23,8 @@ public class GuestRepository {
         return Collections.unmodifiableList(this.guests);
     }
 
-    public Guest create(String firstName, String lastName, LocalDate dateOfBirth) {
-        Guest newOne = new Guest(firstName, lastName, dateOfBirth, Gender.MALE);
+    public Guest create(String firstName, String lastName, LocalDate dateOfBirth, Gender gender) {
+        Guest newOne = new Guest(firstName, lastName, dateOfBirth, gender);
         this.guests.add(newOne);
         return newOne;
     }

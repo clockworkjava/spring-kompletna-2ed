@@ -21,7 +21,7 @@ public class GuestService {
     }
 
 
-    public Guest create(String firstName, String lastName, String dateOfBirth) {
-        return this.repository.create(firstName, lastName, LocalDate.parse(dateOfBirth));
+    public Guest create(String firstName, String lastName, String dateOfBirth, String gender) {
+        return this.repository.create(firstName, lastName, LocalDate.parse(dateOfBirth), Gender.valueOf(gender));
     }
 }

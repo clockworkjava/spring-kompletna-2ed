@@ -7,9 +7,15 @@
 <body>
     <h2>Dodaj nowego gościa</h2>
     <form th:action="@{/createNewGuest}" method="post">
-        <p>Imię: <input type="text" name="firstName" /></p>
-        <p>Nazwisko: <input type="text" name="lastName" /></p>
-            <p>Data urodzenia: <input type="date" name="dateOfBirth" /></p>
+        <p><label for="firstName">Imię:</label> <input type="text" id="firstName" name="firstName" /></p>
+        <p><label for="lastName">Nazwisko:</label> <input type="text" id="lastName" name="lastName" /></p>
+        <p><label for="dateOfBirth">Data urodzenia:</label> <input type="date" id="dateOfBirth" name="dateOfBirth" /></p>
+        <p><label for="gender">Płeć:</label>
+            <select id="gender" name="gender">
+                <option value="MALE">Mężyczna</option>
+                <option value="FEMALE">Kobieta</option>
+            </select>
+        </p>
         <p><input type="submit" value="Submit" /></p>
     </form>
 </body>

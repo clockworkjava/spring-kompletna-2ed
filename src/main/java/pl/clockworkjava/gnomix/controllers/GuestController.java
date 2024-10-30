@@ -36,10 +36,11 @@ public class GuestController {
     public String createNewGuest(
           @RequestParam String firstName,
           @RequestParam String lastName,
-          @RequestParam String dateOfBirth
+          @RequestParam String dateOfBirth,
+          @RequestParam String gender
     ) {
-        log.info(String.format("Got create new guest request, with params: %s %s %s", firstName, lastName, dateOfBirth));
-        this.guestService.create(firstName, lastName, dateOfBirth);
+        log.info(String.format("Got create new guest request, with params: %s %s %s %s", firstName, lastName, dateOfBirth, gender));
+        this.guestService.create(firstName, lastName, dateOfBirth, gender);
         return "redirect:guests";
     }
 
