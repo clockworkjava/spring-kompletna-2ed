@@ -1,22 +1,25 @@
 package pl.clockworkjava.gnomix.controllers;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import pl.clockworkjava.gnomix.controllers.dto.CreateNewGuestDTO;
 import pl.clockworkjava.gnomix.domain.guest.Gender;
 import pl.clockworkjava.gnomix.domain.guest.Guest;
 import pl.clockworkjava.gnomix.domain.guest.GuestService;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 @WebMvcTest(GuestController.class)
 public class GuestControllerTest {
@@ -40,5 +43,23 @@ public class GuestControllerTest {
                 .andExpect(view().name("guests"))
                 .andExpect(model().attributeExists("guests"))
                 .andExpect(content().string(containsString("Pawel")));
+    }
+
+    @Test
+    public void testCreateGuest() throws Exception {
+        String postContent = "firstName=Pawel&lastName=Cwik&dateOfBirth=2021-09-15&gender=MALE";
+
+        MockHttpServletRequestBuilder request =
+                post("/createNewGuest")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                        .content(postContent);
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("guests"));
+
+        Mockito.verify(guestService, Mockito.times(1))
+                .create("Pawel", "Cwik", LocalDate.parse("2021-09-15"), Gender.MALE);
+
     }
 }
