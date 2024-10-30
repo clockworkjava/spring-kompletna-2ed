@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Utwórz nowego gościa</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h2>Dodaj nowego gościa</h2>
+    <form th:action="@{/createNewGuest}" method="post">
+        <p>Imię: <input type="text" name="firstName" /></p>
+        <p>Nazwisko: <input type="text" name="lastName" /></p>
+            <p>Data urodzenia: <input type="date" name="dateOfBirth" /></p>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+</body>
+</html>
