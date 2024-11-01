@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.clockworkjava.gnomix.domain.reservation.RoomService;
+import pl.clockworkjava.gnomix.domain.room.Bed;
 import pl.clockworkjava.gnomix.domain.room.Room;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class RoomControllerTest {
     @Test
     public void testGuests() throws Exception {
 
-        Room r = new Room("1408");
+        Room r = new Room("1408", List.of(Bed.SINGLE));
 
         Mockito.when(roomService.findAll()).thenReturn(List.of(r));
 
