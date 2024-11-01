@@ -5,15 +5,20 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import pl.clockworkjava.gnomix.domain.guest.Gender;
 import pl.clockworkjava.gnomix.domain.reservation.RoomService;
 import pl.clockworkjava.gnomix.domain.room.Bed;
 import pl.clockworkjava.gnomix.domain.room.Room;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -39,5 +44,41 @@ public class RoomControllerTest {
                 .andExpect(view().name("rooms"))
                 .andExpect(model().attributeExists("rooms"))
                 .andExpect(content().string(containsString("1408")));
+    }
+
+    @Test
+    public void testCreateRoom() throws Exception {
+        String postContent = "roomNumber=1234&bedSetup=1";
+
+        MockHttpServletRequestBuilder request =
+                post("/createNewRoom")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                        .content(postContent);
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("rooms"));
+
+        Mockito.verify(roomService, Mockito.times(1))
+                .create("1234", List.of(Bed.SINGLE));
+
+    }
+
+    @Test
+    public void testCreateRoomBigRoom() throws Exception {
+        String postContent = "roomNumber=1234&bedSetup=2%2B1%2B1";
+
+        MockHttpServletRequestBuilder request =
+                post("/createNewRoom")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                        .content(postContent);
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("rooms"));
+
+        Mockito.verify(roomService, Mockito.times(1))
+                .create("1234", List.of(Bed.DOUBLE, Bed.SINGLE, Bed.SINGLE));
+
     }
 }
