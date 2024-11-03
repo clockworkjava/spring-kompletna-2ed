@@ -13,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import pl.clockworkjava.gnomix.controllers.dto.CreateNewGuestDTO;
 import pl.clockworkjava.gnomix.domain.guest.Gender;
 import pl.clockworkjava.gnomix.domain.guest.Guest;
 import pl.clockworkjava.gnomix.domain.guest.GuestService;
@@ -50,7 +49,7 @@ public class GuestControllerTest {
         String postContent = "firstName=Pawel&lastName=Cwik&dateOfBirth=2021-09-15&gender=MALE";
 
         MockHttpServletRequestBuilder request =
-                post("/createNewGuest")
+                post("/guests")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                         .content(postContent);
 
