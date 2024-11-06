@@ -16,6 +16,7 @@
             <th>Nazwisko</th>
             <th>Data urodzenia</th>
             <th>Płeć</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -25,8 +26,12 @@
             <td th:text="${guest.lastName}"/>
             <td th:text="${guest.birthDate}"/>
             <td th:text="${guest.gender}"/>
+            <td><a th:href="@{/guests/delete/{id}(id=${guest.id})}">Usuń</a></td>
         </tr>
     </tbody>
 </table>
+<div th:if="${removalResult != null}">
+    <p th:text="${removalResult ? 'Udało się usunąć gościa' : 'Nie udało się usunąć gościa'}"></p>
+</div>
 </body>
 </html>

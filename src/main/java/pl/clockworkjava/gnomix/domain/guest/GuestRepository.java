@@ -28,4 +28,13 @@ public class GuestRepository {
         this.guests.add(newOne);
         return newOne;
     }
+
+    public Guest findById(long id) {
+        return this.guests.stream().filter(guest -> guest.getId() == id).findFirst().orElseThrow();
+    }
+
+    public void removeById(long id) {
+        Guest guestToBeRemoved = this.findById(id);
+        this.guests.remove(guestToBeRemoved);
+    }
 }
