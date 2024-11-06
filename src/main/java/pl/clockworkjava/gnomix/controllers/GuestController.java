@@ -4,13 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.clockworkjava.gnomix.controllers.dto.CreateNewGuestDTO;
+import pl.clockworkjava.gnomix.controllers.dto.UpdateGuestDTO;
+import pl.clockworkjava.gnomix.domain.guest.Guest;
 import pl.clockworkjava.gnomix.domain.guest.GuestService;
+
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -47,6 +48,28 @@ public class GuestController {
         log.info("Trying to delete guest with id {}", id);
         boolean result = this.guestService.removeById(id);
         ra.addFlashAttribute("removalResult", result);
+        return "redirect:/guests";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editGuest(@PathVariable long id, Model model, RedirectAttributes ra) {
+        log.info("Trying to show edit form for guest with id {}", id);
+        Optional<Guest> guestToEdit = this.guestService.findById(id);
+        if(guestToEdit.isPresent()) {
+            model.addAttribute("guest", guestToEdit.get());
+            return "editGuest";
+        } else {
+            log.warn("Guest with id {} not found. Unable to edit", id);
+            ra.addFlashAttribute("editResult", false);
+            return "redirect:/guests";
+        }
+
+    }
+
+    @PostMapping("/edit")
+    public String editGuest(UpdateGuestDTO updateDto) {
+        log.info("Trying to edit guest with id {}", updateDto.id());
+        this.guestService.editGuest(updateDto.id(), updateDto.firstName(), updateDto.lastName(), updateDto.dateOfBirth(), updateDto.gender());
         return "redirect:/guests";
     }
 

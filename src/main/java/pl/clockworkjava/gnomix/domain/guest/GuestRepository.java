@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Repository
 public class GuestRepository {
@@ -29,7 +30,7 @@ public class GuestRepository {
         return newOne;
     }
 
-    public Guest findById(long id) {
+    public Guest findById(long id) throws NoSuchElementException {
         return this.guests.stream().filter(guest -> guest.getId() == id).findFirst().orElseThrow();
     }
 
