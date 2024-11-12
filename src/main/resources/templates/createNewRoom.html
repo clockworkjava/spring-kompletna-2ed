@@ -6,7 +6,7 @@
 </head>
 <body>
     <h2>Dodaj nowy pokój</h2>
-    <form th:action="@{/createNewRoom}" method="post">
+    <form th:action="@{/rooms}" method="post">
         <p><label for="roomNumber">Numer pokoju:</label> <input type="text" id="roomNumber" name="roomNumber" /></p>
         <p><label for="bedSetup">Rozkład łóżek:</label>
             <select id="bedSetup" name="bedSetup">

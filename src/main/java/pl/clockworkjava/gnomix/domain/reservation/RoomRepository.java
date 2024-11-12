@@ -4,10 +4,7 @@ import org.springframework.stereotype.Repository;
 import pl.clockworkjava.gnomix.domain.room.Bed;
 import pl.clockworkjava.gnomix.domain.room.Room;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class RoomRepository {
@@ -30,5 +27,14 @@ public class RoomRepository {
         Room result = new Room(roomNumber, roomSetup);
         this.rooms.add(result);
         return result;
+    }
+
+    public Room findById(long id) throws NoSuchElementException {
+        return this.rooms.stream().filter(room -> room.getId() == id).findFirst().orElseThrow();
+    }
+
+    public void removeById(long id) {
+        Room roomToBeRemoved = this.findById(id);
+        this.rooms.remove(roomToBeRemoved);
     }
 }
