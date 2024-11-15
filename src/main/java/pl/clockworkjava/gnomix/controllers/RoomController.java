@@ -33,7 +33,7 @@ public class RoomController {
         return "rooms";
     }
 
-    @GetMapping("/createNewRoom")
+    @GetMapping("/create")
     public String createNewRoom() {
         return "createNewRoom";
     }
