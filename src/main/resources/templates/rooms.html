@@ -25,31 +25,35 @@
         </ul>
     </div>
 </nav>
-<h2>Lista pokoi</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Numer pokoju</th>
-            <th>Rozmiar</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    <tr th:each="room : ${rooms}">
-        <td th:text="${room.number}"/>
-        <td th:text="${room.size()}"/>
-        <td><a th:href="@{/rooms/delete/{id}(id=${room.id})}">Usuń</a></td>
-        <td><a th:href="@{/rooms/edit/{id}(id=${room.id})}">Modyfikuj</a></td>
-    </tr>
-    </tbody>
-
-</table>
-<div th:if="${removalResult != null}">
-    <p th:text="${removalResult ? 'Udało się usunąć pokoju' : 'Nie udało się usunąć pokoju'}"></p>
+<div class="p-3 text-center bg-light">
+    <h2 class="mb-3">Lista Pokoi</h2>
 </div>
-<div th:if="${editResult != null}">
-    <p th:text="${editResult ? 'Udało się zmodyfikować pokoju' : 'Nie odnaleziono pokoju'}"></p>
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Numer pokoju</th>
+                <th>Rozmiar</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="room : ${rooms}">
+            <td th:text="${room.number}"/>
+            <td th:text="${room.size()}"/>
+            <td><a th:href="@{/rooms/delete/{id}(id=${room.id})}">Usuń</a></td>
+            <td><a th:href="@{/rooms/edit/{id}(id=${room.id})}">Modyfikuj</a></td>
+        </tr>
+        </tbody>
+
+    </table>
+    <div th:if="${removalResult != null}">
+        <p th:text="${removalResult ? 'Udało się usunąć pokoju' : 'Nie udało się usunąć pokoju'}"></p>
+    </div>
+    <div th:if="${editResult != null}">
+        <p th:text="${editResult ? 'Udało się zmodyfikować pokoju' : 'Nie odnaleziono pokoju'}"></p>
+    </div>
 </div>
 </body>
 </html>

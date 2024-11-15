@@ -25,33 +25,37 @@
         </ul>
     </div>
 </nav>
-<h2>Lista gości</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Imię</th>
-            <th>Nazwisko</th>
-            <th>Data urodzenia</th>
-            <th>Płeć</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="guest : ${guests}">
-            <td th:text="${guest.firstName}"/>
-            <td th:text="${guest.lastName}"/>
-            <td th:text="${guest.birthDate}"/>
-            <td th:text="${guest.gender}"/>
-            <td><a th:href="@{/guests/delete/{id}(id=${guest.id})}">Usuń</a></td>
-            <td><a th:href="@{/guests/edit/{id}(id=${guest.id})}">Modyfikuj</a></td>
-        </tr>
-    </tbody>
-</table>
-<div th:if="${removalResult != null}">
-    <p th:text="${removalResult ? 'Udało się usunąć gościa' : 'Nie udało się usunąć gościa'}"></p>
+<div class="p-3 text-center bg-light">
+    <h2 class="mb-3">Lista Gości</h2>
 </div>
-<div th:if="${editResult != null}">
-    <p th:text="${editResult ? 'Udało się zmodyfikować gościa' : 'Nie odnaleziono gościa'}"></p>
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Data urodzenia</th>
+                <th>Płeć</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="guest : ${guests}">
+                <td th:text="${guest.firstName}"/>
+                <td th:text="${guest.lastName}"/>
+                <td th:text="${guest.birthDate}"/>
+                <td th:text="${guest.gender}"/>
+                <td><a th:href="@{/guests/delete/{id}(id=${guest.id})}">Usuń</a></td>
+                <td><a th:href="@{/guests/edit/{id}(id=${guest.id})}">Modyfikuj</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <div th:if="${removalResult != null}">
+        <p th:text="${removalResult ? 'Udało się usunąć gościa' : 'Nie udało się usunąć gościa'}"></p>
+    </div>
+    <div th:if="${editResult != null}">
+        <p th:text="${editResult ? 'Udało się zmodyfikować gościa' : 'Nie odnaleziono gościa'}"></p>
+    </div>
 </div>
 </body>
 </html>
