@@ -46,6 +46,9 @@ public class RoomService {
     }
 
     public void editRoom(long id, String number, List<Bed> beds) {
-        this.findById(id).ifPresent( room -> room.modify(number, beds));
+        this.findById(id).ifPresent( room -> {
+            room.modify(number, beds);
+            this.repository.update(room);
+        });
     }
 }

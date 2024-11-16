@@ -1,22 +1,32 @@
 package pl.clockworkjava.gnomix.domain.room;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
+@Setter(AccessLevel.NONE)
+@Entity
 public class Room {
-    private final long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
     private String number;
+    @ElementCollection(targetClass = Bed.class)
     private List<Bed> beds;
 
+    private Room() {}
 
     public Room(String number, List<Bed> beds) {
-        this.id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
         this.number = number;
-        this.beds = beds;
+        this.beds = new ArrayList<>(beds);
     }
 
     public int size() {
@@ -29,6 +39,6 @@ public class Room {
 
     public void modify(String number, List<Bed> beds) {
         this.number = number;
-        this.beds = beds;
+        this.beds = new ArrayList<>(beds);
     }
 }

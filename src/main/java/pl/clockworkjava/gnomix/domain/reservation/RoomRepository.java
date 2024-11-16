@@ -1,5 +1,8 @@
 package pl.clockworkjava.gnomix.domain.reservation;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import pl.clockworkjava.gnomix.domain.room.Bed;
 import pl.clockworkjava.gnomix.domain.room.Room;
@@ -9,32 +12,38 @@ import java.util.*;
 @Repository
 public class RoomRepository {
 
-    private final List<Room> rooms;
-
-    public RoomRepository() {
-        Room r = new Room("1408", List.of(Bed.SINGLE));
-        Room r1 = new Room("1432", List.of(Bed.DOUBLE, Bed.SINGLE));
-
-        this.rooms = new ArrayList<>(List.of(r, r1));
-    }
+    @PersistenceContext
+    EntityManager entityManager;
 
     public List<Room> findAll() {
-        return Collections.unmodifiableList(this.rooms);
+        return this.entityManager.createQuery("SELECT room FROM Room room", Room.class).getResultList();
     }
 
-
+    @Transactional
     public Room create(String roomNumber, List<Bed> roomSetup) {
         Room result = new Room(roomNumber, roomSetup);
-        this.rooms.add(result);
+        this.entityManager.persist(result);
         return result;
     }
 
     public Room findById(long id) throws NoSuchElementException {
-        return this.rooms.stream().filter(room -> room.getId() == id).findFirst().orElseThrow();
+        Room r = this.entityManager.find(Room.class, id);
+
+        if(r == null) {
+            throw new NoSuchElementException();
+        } else {
+            return r;
+        }
     }
 
+    @Transactional
     public void removeById(long id) {
         Room roomToBeRemoved = this.findById(id);
-        this.rooms.remove(roomToBeRemoved);
+        this.entityManager.remove(roomToBeRemoved);
+    }
+
+    @Transactional
+    public void update(Room r) {
+        this.entityManager.merge(r);
     }
 }
