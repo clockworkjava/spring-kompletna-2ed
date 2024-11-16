@@ -47,6 +47,9 @@ public class GuestService {
     }
 
     public void editGuest(long id, String firstName, String lastName, LocalDate birthDate, Gender gender) {
-        this.findById(id).ifPresent( guest -> guest.modify(firstName, lastName, birthDate, gender));
+        this.findById(id).ifPresent( guest -> {
+                guest.modify(firstName, lastName, birthDate, gender);
+                this.repository.update(guest);
+        });
     }
 }
