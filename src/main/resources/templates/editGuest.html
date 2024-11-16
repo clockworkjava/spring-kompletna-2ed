@@ -1,25 +1,42 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Utwórz nowego gościa</title>
+    <title>Edytuj gościa</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
 </head>
 <body>
-    <h2>Modyfikuj dane gościa</h2>
+<div class="container">
+    <div class="p-3 text-center bg-light">
+        <h2 class="mb-3">Edytuj gościa</h2>
+    </div>
     <form th:action="@{/guests/edit}" method="post">
         <input type="hidden" name="id" th:value="${guest.id}"/>
-        <p><label for="firstName">Imię:</label> <input type="text" id="firstName" name="firstName" th:value="${guest.firstName}" required/></p>
-        <p><label for="lastName">Nazwisko:</label> <input type="text" id="lastName" name="lastName" th:value="${guest.lastName}" required/></p>
-        <p><label for="dateOfBirth">Data urodzenia:</label> <input type="date" id="dateOfBirth" name="dateOfBirth" th:value="${guest.birthDate}" required /></p>
-        <p><label for="gender">Płeć:</label>
-            <select id="gender" name="gender" th:value="${guest.gender}">
+        <div class="form-group">
+            <label for="firstName">Imię:</label>
+            <input class="form-control" type="text" id="firstName" name="firstName" th:value="${guest.firstName}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Nazwisko:</label>
+            <input class="form-control" type="text" id="lastName" name="lastName" th:value="${guest.lastName}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="dateOfBirth">Data urodzenia:</label>
+            <input class="form-control" type="date" id="dateOfBirth" name="dateOfBirth" th:value="${guest.birthDate}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="gender">Płeć:</label>
+            <select class="form-control" id="gender" name="gender" th:value="${guest.gender}">
                 <option value="MALE">Mężyczna</option>
                 <option value="FEMALE">Kobieta</option>
             </select>
-        </p>
-        <p><input type="submit" value="Modyfikuj" /></p>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Modyfikuj" />
     </form>
+</div>
 </body>
 </html>
