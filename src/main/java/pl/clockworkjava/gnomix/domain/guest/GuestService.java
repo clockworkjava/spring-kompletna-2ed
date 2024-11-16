@@ -25,31 +25,24 @@ public class GuestService {
     }
 
     public Guest create(String firstName, String lastName, LocalDate dateOfBirth, Gender gender) {
-        return this.repository.create(firstName, lastName, dateOfBirth, gender);
+        Guest newOne = new Guest(firstName, lastName, dateOfBirth, gender);
+        return this.repository.save(newOne);
     }
 
-    public boolean removeById(long id) throws NoSuchElementException {
-        try {
-            this.repository.removeById(id);
-            return true;
-        } catch (NoSuchElementException ex) {
-            log.info("Guest marked for removal not found");
-            return false;
-        }
+    public void removeById(long id) throws NoSuchElementException {
+        this.repository.deleteById(id);
     }
 
     public Optional<Guest> findById(long id) {
-        try {
-            return Optional.of(this.repository.findById(id));
-        } catch (NoSuchElementException ex) {
-            return Optional.empty();
-        }
+
+        return this.repository.findById(id);
+
     }
 
     public void editGuest(long id, String firstName, String lastName, LocalDate birthDate, Gender gender) {
         this.findById(id).ifPresent( guest -> {
                 guest.modify(firstName, lastName, birthDate, gender);
-                this.repository.update(guest);
+                this.repository.save(guest);
         });
     }
 }

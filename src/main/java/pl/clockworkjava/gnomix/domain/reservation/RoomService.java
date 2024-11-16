@@ -24,31 +24,22 @@ public class RoomService {
     }
 
     public Room create(String roomNumber, List<Bed> roomSetup) {
-        return this.repository.create(roomNumber, roomSetup);
+        Room newOne = new Room(roomNumber, roomSetup);
+        return this.repository.save(newOne);
     }
 
-    public boolean removeById(long id) {
-        try {
-            this.repository.removeById(id);
-            return true;
-        } catch (NoSuchElementException ex) {
-            log.info("Room marked for removal not found");
-            return false;
-        }
+    public void removeById(long id) {
+        this.repository.deleteById(id);
     }
 
     public Optional<Room> findById(long id) {
-        try {
-            return Optional.of(this.repository.findById(id));
-        } catch (NoSuchElementException ex) {
-            return Optional.empty();
-        }
+        return this.repository.findById(id);
     }
 
     public void editRoom(long id, String number, List<Bed> beds) {
         this.findById(id).ifPresent( room -> {
             room.modify(number, beds);
-            this.repository.update(room);
+            this.repository.save(room);
         });
     }
 }

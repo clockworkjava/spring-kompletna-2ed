@@ -58,8 +58,7 @@ public class RoomController {
     @GetMapping("/delete/{id}")
     public String deleteRoom(@PathVariable long id, RedirectAttributes ra) {
         log.info("Trying to delete room with id {}", id);
-        boolean result = this.roomService.removeById(id);
-        ra.addFlashAttribute("removalResult", result);
+        this.roomService.removeById(id);
         return "redirect:/rooms";
     }
 

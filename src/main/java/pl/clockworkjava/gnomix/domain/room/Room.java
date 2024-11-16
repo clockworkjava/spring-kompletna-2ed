@@ -16,7 +16,7 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     private String number;
     @ElementCollection(targetClass = Bed.class)

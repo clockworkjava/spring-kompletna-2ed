@@ -46,8 +46,7 @@ public class GuestController {
     @GetMapping("/delete/{id}")
     public String deleteGuest(@PathVariable long id, RedirectAttributes ra) {
         log.info("Trying to delete guest with id {}", id);
-        boolean result = this.guestService.removeById(id);
-        ra.addFlashAttribute("removalResult", result);
+        this.guestService.removeById(id);
         return "redirect:/guests";
     }
 
