@@ -59,6 +59,12 @@
 
         <input type="submit" class="btn btn-primary" value="Utwórz rezerwację" />
     </form>
+    <div th:if="${not #lists.isEmpty(errors)}">
+        <h4>Błąd przy tworzeniu rezerwacji</h4>
+        <ul>
+            <li th:each="error : ${errors}"><span th:text="${error}"></span></li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>
