@@ -9,14 +9,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
 
-    private ReservationRepository repository;
-    private RoomService roomService;
+    private final ReservationRepository repository;
+    private final RoomService roomService;
 
     @Autowired
     public ReservationService(
@@ -50,8 +51,6 @@ public class ReservationService {
             }
         }
 
-
-
         return availableRooms;
     }
 
@@ -59,19 +58,26 @@ public class ReservationService {
 
         List<Reservation> reservations = this.getAllReservationsForRoom(room);
 
-        List<Reservation> result = reservations
+        Optional<Reservation> any = reservations
                 .stream()
-                .filter(reservationStartsAtTheSameDate(from))
-                .filter(reservationEndsAtTheSameDate(to))
-                .filter(reservationStartsBetween(from,to))
-                .filter(reservationEndsBetween(from,to))
-                .toList();
+                .filter(
+                        reservationStartsAtTheSameDate(from)
+                                .or(reservationEndsAtTheSameDate(to))
+                                .or(reservationStartsBetween(from, to))
+                                .or(reservationEndsBetween(from, to))
+                                .or(reservationContains(from, to))
+                )
+                .findAny();
 
-        return result.isEmpty();
+        return any.isEmpty();
     }
 
     static Predicate<Reservation> reservationEndsAtTheSameDate(LocalDate to) {
         return reservation -> reservation.getToDate().equals(to);
+    }
+
+    static Predicate<Reservation> reservationContains(LocalDate from, LocalDate to) {
+        return reservation -> reservation.getFromDate().isBefore(from) && reservation.getToDate().isAfter(to);
     }
 
     static Predicate<Reservation> reservationStartsBetween(LocalDate from, LocalDate to) {
