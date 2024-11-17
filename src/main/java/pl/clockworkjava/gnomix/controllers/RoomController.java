@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.clockworkjava.gnomix.domain.reservation.RoomService;
+import pl.clockworkjava.gnomix.domain.room.RoomService;
 import pl.clockworkjava.gnomix.domain.room.Bed;
 import pl.clockworkjava.gnomix.domain.room.Room;
 

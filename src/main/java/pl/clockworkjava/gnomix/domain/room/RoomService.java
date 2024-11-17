@@ -1,12 +1,9 @@
-package pl.clockworkjava.gnomix.domain.reservation;
+package pl.clockworkjava.gnomix.domain.room;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.clockworkjava.gnomix.domain.room.Bed;
-import pl.clockworkjava.gnomix.domain.room.Room;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service

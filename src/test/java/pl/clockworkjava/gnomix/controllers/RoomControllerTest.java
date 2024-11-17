@@ -8,12 +8,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import pl.clockworkjava.gnomix.domain.guest.Gender;
-import pl.clockworkjava.gnomix.domain.reservation.RoomService;
+import pl.clockworkjava.gnomix.domain.room.RoomService;
 import pl.clockworkjava.gnomix.domain.room.Bed;
 import pl.clockworkjava.gnomix.domain.room.Room;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
