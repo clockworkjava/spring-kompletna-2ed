@@ -2,6 +2,7 @@ package pl.clockworkjava.gnomix.domain.reservation;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.context.ApplicationEventPublisher;
 import pl.clockworkjava.gnomix.domain.room.Room;
 import pl.clockworkjava.gnomix.domain.room.RoomService;
 
@@ -19,7 +20,8 @@ public class ReservationServiceTest {
         //given
         ReservationRepository repo = Mockito.mock(ReservationRepository.class);
         RoomService rs = Mockito.mock(RoomService.class);
-        ReservationService reservationService = new ReservationService(repo, rs);
+        ApplicationEventPublisher aep = Mockito.mock(ApplicationEventPublisher.class);
+        ReservationService reservationService = new ReservationService(repo, rs, aep);
 
         //when then
         assertThrows(IllegalArgumentException.class,
@@ -35,7 +37,8 @@ public class ReservationServiceTest {
         //given
         ReservationRepository repo = Mockito.mock(ReservationRepository.class);
         RoomService rs = Mockito.mock(RoomService.class);
-        ReservationService reservationService = new ReservationService(repo, rs);
+        ApplicationEventPublisher aep = Mockito.mock(ApplicationEventPublisher.class);
+        ReservationService reservationService = new ReservationService(repo, rs, aep);
 
         //when then
         assertThrows(IllegalArgumentException.class,
@@ -51,7 +54,8 @@ public class ReservationServiceTest {
         //given
         ReservationRepository repo = Mockito.mock(ReservationRepository.class);
         RoomService rs = Mockito.mock(RoomService.class);
-        ReservationService reservationService = new ReservationService(repo, rs);
+        ApplicationEventPublisher aep = Mockito.mock(ApplicationEventPublisher.class);
+        ReservationService reservationService = new ReservationService(repo, rs, aep);
 
         //when then
         assertThrows(IllegalArgumentException.class,
@@ -67,7 +71,8 @@ public class ReservationServiceTest {
         //given
         ReservationRepository repo = Mockito.mock(ReservationRepository.class);
         RoomService rs = Mockito.mock(RoomService.class);
-        ReservationService reservationService = new ReservationService(repo, rs);
+        ApplicationEventPublisher aep = Mockito.mock(ApplicationEventPublisher.class);
+        ReservationService reservationService = new ReservationService(repo, rs, aep);
 
         //when then
         assertThrows(IllegalArgumentException.class,
@@ -379,7 +384,8 @@ public class ReservationServiceTest {
         //given
         ReservationRepository repo = Mockito.mock(ReservationRepository.class);
         RoomService rs = Mockito.mock(RoomService.class);
-        ReservationService reservationService = new ReservationService(repo, rs);
+        ApplicationEventPublisher aep = Mockito.mock(ApplicationEventPublisher.class);
+        ReservationService reservationService = new ReservationService(repo, rs, aep);
 
         List<Reservation> reservations = new ArrayList<>();
 
@@ -413,7 +419,8 @@ public class ReservationServiceTest {
         //given
         ReservationRepository repo = Mockito.mock(ReservationRepository.class);
         RoomService rs = Mockito.mock(RoomService.class);
-        ReservationService reservationService = new ReservationService(repo, rs);
+        ApplicationEventPublisher aep = Mockito.mock(ApplicationEventPublisher.class);
+        ReservationService reservationService = new ReservationService(repo, rs, aep);
 
         List<Reservation> reservations = new ArrayList<>();
 

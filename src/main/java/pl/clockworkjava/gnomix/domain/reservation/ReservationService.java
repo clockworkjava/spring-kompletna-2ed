@@ -1,7 +1,9 @@
 package pl.clockworkjava.gnomix.domain.reservation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import pl.clockworkjava.gnomix.domain.reservation.events.TempReservationCreatedEvent;
 import pl.clockworkjava.gnomix.domain.room.Room;
 import pl.clockworkjava.gnomix.domain.room.RoomService;
 
@@ -18,13 +20,16 @@ public class ReservationService {
 
     private final ReservationRepository repository;
     private final RoomService roomService;
+    private final ApplicationEventPublisher publisher;
 
     @Autowired
     public ReservationService(
             ReservationRepository repository,
-            RoomService roomService) {
+            RoomService roomService,
+            ApplicationEventPublisher publisher) {
         this.repository = repository;
         this.roomService = roomService;
+        this.publisher = publisher;
     }
 
     public List<Reservation> getAll() {
@@ -106,6 +111,8 @@ public class ReservationService {
         room.ifPresent( r -> {
             Reservation tmp = new Reservation(fromDate, toDate, r, email);
             this.repository.save(tmp);
+            TempReservationCreatedEvent trce = new TempReservationCreatedEvent(email, tmp.getId());
+            publisher.publishEvent(trce);
         });
 
         return room.isPresent();
