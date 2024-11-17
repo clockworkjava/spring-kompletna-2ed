@@ -49,13 +49,13 @@ public class RoomControllerTest {
         String postContent = "roomNumber=1234&bedSetup=1";
 
         MockHttpServletRequestBuilder request =
-                post("/createNewRoom")
+                post("/rooms")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                         .content(postContent);
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("rooms"));
+                .andExpect(redirectedUrl("/rooms"));
 
         Mockito.verify(roomService, Mockito.times(1))
                 .create("1234", List.of(Bed.SINGLE));
@@ -67,13 +67,13 @@ public class RoomControllerTest {
         String postContent = "roomNumber=1234&bedSetup=2%2B1%2B1";
 
         MockHttpServletRequestBuilder request =
-                post("/createNewRoom")
+                post("/rooms")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                         .content(postContent);
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("rooms"));
+                .andExpect(redirectedUrl("/rooms"));
 
         Mockito.verify(roomService, Mockito.times(1))
                 .create("1234", List.of(Bed.DOUBLE, Bed.SINGLE, Bed.SINGLE));

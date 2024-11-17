@@ -55,7 +55,7 @@ public class GuestControllerTest {
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("guests"));
+                .andExpect(redirectedUrl("/guests"));
 
         Mockito.verify(guestService, Mockito.times(1))
                 .create("Pawel", "Cwik", LocalDate.parse("2021-09-15"), Gender.MALE);
