@@ -25,9 +25,7 @@ public class ReservationServiceTest {
 
         //when then
         assertThrows(IllegalArgumentException.class,
-                () -> {
-                    reservationService.getAvailableRooms(LocalDate.now(), LocalDate.now().plusDays(1), -5);
-                }
+                () -> reservationService.getAvailableRooms(LocalDate.now(), LocalDate.now().plusDays(1), -5)
         );
     }
 
@@ -42,9 +40,7 @@ public class ReservationServiceTest {
 
         //when then
         assertThrows(IllegalArgumentException.class,
-                () -> {
-                    reservationService.getAvailableRooms(LocalDate.now(), LocalDate.now().plusDays(1), 15);
-                }
+                () -> reservationService.getAvailableRooms(LocalDate.now(), LocalDate.now().plusDays(1), 15)
         );
     }
 
@@ -59,9 +55,7 @@ public class ReservationServiceTest {
 
         //when then
         assertThrows(IllegalArgumentException.class,
-                () -> {
-                    reservationService.getAvailableRooms(LocalDate.now(), LocalDate.now(), 5);
-                }
+                () -> reservationService.getAvailableRooms(LocalDate.now(), LocalDate.now(), 5)
         );
     }
 
@@ -76,9 +70,7 @@ public class ReservationServiceTest {
 
         //when then
         assertThrows(IllegalArgumentException.class,
-                () -> {
-                    reservationService.getAvailableRooms(LocalDate.now().plusDays(1), LocalDate.now(), 5);
-                }
+                () -> reservationService.getAvailableRooms(LocalDate.now().plusDays(1), LocalDate.now(), 5)
         );
     }
 

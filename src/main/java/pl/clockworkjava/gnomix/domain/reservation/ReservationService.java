@@ -111,7 +111,7 @@ public class ReservationService {
         room.ifPresent( r -> {
             Reservation tmp = new Reservation(fromDate, toDate, r, email);
             this.repository.save(tmp);
-            TempReservationCreatedEvent trce = new TempReservationCreatedEvent(email, tmp.getId());
+            TempReservationCreatedEvent trce = new TempReservationCreatedEvent(this, email, tmp.getId());
             publisher.publishEvent(trce);
         });
 
