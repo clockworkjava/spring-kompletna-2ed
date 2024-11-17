@@ -22,7 +22,7 @@ public class Room {
     @ElementCollection(targetClass = Bed.class)
     private List<Bed> beds;
 
-    private Room() {}
+    Room() {}
 
     public Room(String number, List<Bed> beds) {
         this.number = number;

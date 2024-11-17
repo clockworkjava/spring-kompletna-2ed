@@ -24,7 +24,7 @@ public class Guest {
     private LocalDate birthDate;
     private Gender gender;
 
-    private Guest() {
+    Guest() {
 
     }
 

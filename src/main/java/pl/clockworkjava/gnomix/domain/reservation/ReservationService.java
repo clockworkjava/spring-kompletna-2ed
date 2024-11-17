@@ -3,6 +3,8 @@ package pl.clockworkjava.gnomix.domain.reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReservationService {
 
@@ -11,5 +13,9 @@ public class ReservationService {
     @Autowired
     public ReservationService(ReservationRepository repository) {
         this.repository = repository;
+    }
+
+    public List<Reservation> getAll() {
+        return this.repository.findAll();
     }
 }

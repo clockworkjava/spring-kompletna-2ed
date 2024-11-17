@@ -31,6 +31,6 @@ public class Reservation {
         this.room = room;
     }
 
-    private Reservation() {
+    Reservation() {
     }
 }
