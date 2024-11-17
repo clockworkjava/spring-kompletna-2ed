@@ -1,9 +1,11 @@
 package pl.clockworkjava.gnomix.controllers;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.clockworkjava.gnomix.controllers.dto.CreateNewGuestDTO;
@@ -37,10 +39,16 @@ public class GuestController {
     }
 
     @PostMapping
-    public String createNewGuest(CreateNewGuestDTO dto) {
+    public String createNewGuest(@Valid CreateNewGuestDTO dto, BindingResult result, Model model) {
         log.info("Got create new guest request {}", dto);
-        this.guestService.create(dto.firstName(), dto.lastName(), dto.dateOfBirth(), dto.gender());
-        return "redirect:/guests";
+        if(result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            return "createNewGuest";
+        } else {
+            this.guestService.create(dto.firstName(), dto.lastName(), dto.dateOfBirth(), dto.gender());
+            return "redirect:/guests";
+        }
+
     }
 
     @GetMapping("/delete/{id}")
