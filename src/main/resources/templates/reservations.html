@@ -51,7 +51,7 @@
             <td th:text="${reservation.fromDate}"/>
             <td th:text="${reservation.toDate}"/>
             <td th:text="${reservation.room.number}"/>
-            <td th:text="|${reservation.owner.firstName} ${reservation.owner.lastName}|"/>
+            <td th:text="|${reservation.owner?.firstName} ${reservation.owner?.lastName}|"/>
             <!--            <td>-->
             <!--                <a th:href="@{/guests/delete/{id}(id=${guest.id})}">Usuń</a>-->
             <!--            </td>-->
