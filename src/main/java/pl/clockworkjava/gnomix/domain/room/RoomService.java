@@ -3,8 +3,10 @@ package pl.clockworkjava.gnomix.domain.room;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -38,5 +40,17 @@ public class RoomService {
             room.modify(number, beds);
             this.repository.save(room);
         });
+    }
+
+    public List<Room> getRoomsForSize(int size) {
+
+        if(size <= 0) {
+            return new ArrayList<>();
+        }
+
+        return this.repository.findAll()
+                .stream()
+                .filter( r -> r.size()>=size)
+                .collect(Collectors.toList());
     }
 }
