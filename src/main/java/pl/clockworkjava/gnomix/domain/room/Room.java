@@ -41,4 +41,8 @@ public class Room {
         this.number = number;
         this.beds = new ArrayList<>(beds);
     }
+
+    public void setId(Long i) {
+        this.id = i;
+    }
 }
