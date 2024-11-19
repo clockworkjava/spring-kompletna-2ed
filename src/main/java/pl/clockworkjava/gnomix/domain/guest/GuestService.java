@@ -45,4 +45,10 @@ public class GuestService {
                 this.repository.save(guest);
         });
     }
+
+    public Guest createNewGuest(String firstName, String lastName, LocalDate dateOfBirth) {
+        Guest g = new Guest(firstName, lastName, dateOfBirth, Gender.MALE);
+        this.repository.save(g);
+        return g;
+    }
 }

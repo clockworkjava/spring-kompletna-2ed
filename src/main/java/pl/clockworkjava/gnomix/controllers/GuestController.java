@@ -12,7 +12,9 @@ import pl.clockworkjava.gnomix.controllers.dto.CreateNewGuestDTO;
 import pl.clockworkjava.gnomix.controllers.dto.UpdateGuestDTO;
 import pl.clockworkjava.gnomix.domain.guest.Guest;
 import pl.clockworkjava.gnomix.domain.guest.GuestService;
+import pl.clockworkjava.gnomix.domain.reservation.ReservationService;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Controller
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class GuestController {
 
     private final GuestService guestService;
+    private ReservationService reservationService;
 
     @Autowired
     public GuestController(GuestService guestService) {
@@ -78,6 +81,18 @@ public class GuestController {
         log.info("Trying to edit guest with id {}", updateDto.id());
         this.guestService.editGuest(updateDto.id(), updateDto.firstName(), updateDto.lastName(), updateDto.dateOfBirth(), updateDto.gender());
         return "redirect:/guests";
+    }
+
+    @PostMapping("/createAndAttachToReservation")
+    public String createAndAttachToReservation(
+            String firstName,
+            String lastName,
+            LocalDate dateOfBirth,
+            long reservationId
+    ) {
+        Guest g = this.guestService.createNewGuest(firstName, lastName, dateOfBirth);
+        this.reservationService.attachGuestToReservation(g, reservationId);
+        return "thankyoupage";
     }
 
 }
