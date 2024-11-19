@@ -65,4 +65,8 @@ public class Reservation {
         this.confirmed = false;
         this.creationDate = LocalDateTime.now();
     }
+
+    public void confirm() {
+        this.confirmed = true;
+    }
 }

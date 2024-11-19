@@ -117,4 +117,22 @@ public class ReservationService {
 
         return room.isPresent();
     }
+
+    public boolean confirmReservation(long reservationId) {
+
+        Optional<Reservation> byId = this.repository.findById(reservationId);
+
+        if(byId.isPresent()) {
+            byId.get().confirm();
+            this.repository.save(byId.get());
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public void removeById(long id) {
+        this.repository.deleteById(id);
+    }
 }
