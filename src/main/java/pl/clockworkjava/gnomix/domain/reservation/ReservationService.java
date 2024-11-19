@@ -8,6 +8,8 @@ import pl.clockworkjava.gnomix.domain.room.Room;
 import pl.clockworkjava.gnomix.domain.room.RoomService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -135,4 +137,18 @@ public class ReservationService {
     public void removeById(long id) {
         this.repository.deleteById(id);
     }
+
+    public void removeUnconfirmedReservations() {
+
+        this.repository
+                .findAll()
+                .stream()
+                .filter(reservation -> !reservation.isConfirmed())
+                .filter(reservation -> reservation.getCreationDate().plusMinutes(60)
+                        .isBefore(LocalDateTime.now()))
+                .forEach(reservation ->
+                        this.repository.deleteById(reservation.getId())
+                );
+    }
+
 }
