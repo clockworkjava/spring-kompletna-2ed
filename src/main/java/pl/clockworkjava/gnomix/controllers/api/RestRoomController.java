@@ -1,14 +1,12 @@
 package pl.clockworkjava.gnomix.controllers.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import pl.clockworkjava.gnomix.controllers.dto.AvailableRoomDTO;
 import pl.clockworkjava.gnomix.domain.reservation.ReservationService;
-import pl.clockworkjava.gnomix.domain.room.Room;
 
 import java.time.LocalDate;
 import java.util.List;
