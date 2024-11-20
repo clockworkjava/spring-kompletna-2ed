@@ -51,4 +51,11 @@ public class GuestService {
         this.repository.save(g);
         return g;
     }
+
+    public void patch(long id, String firstName, String lastName, LocalDate dateOfBirth, Gender gender) {
+        this.findById(id).ifPresent( guest -> {
+            guest.patch(firstName, lastName, dateOfBirth, gender);
+            this.repository.save(guest);
+        });
+    }
 }

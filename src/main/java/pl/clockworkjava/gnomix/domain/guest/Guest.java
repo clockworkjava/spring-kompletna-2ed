@@ -41,4 +41,11 @@ public class Guest {
         this.birthDate = birthDate;
         this.gender = gender;
     }
+
+    public void patch(String firstName, String lastName, LocalDate dateOfBirth, Gender gender) {
+        if( firstName != null && !firstName.isEmpty() ) this.firstName = firstName;
+        if( lastName != null && !lastName.isEmpty() ) this.lastName = lastName;
+        if( dateOfBirth != null ) this.birthDate = dateOfBirth;
+        if( gender != null ) this.gender = gender;
+    }
 }

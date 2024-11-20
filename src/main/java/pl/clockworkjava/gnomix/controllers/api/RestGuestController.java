@@ -51,4 +51,14 @@ public class RestGuestController {
                 () -> guestService.removeById(id)
         );
     }
+
+    @PutMapping("/{id}")
+    public void update(@PathVariable long id, @RequestBody CreateNewGuestDTO dto) {
+        guestService.editGuest(id, dto.firstName(), dto.lastName(), dto.dateOfBirth(), dto.gender());
+    }
+
+    @PatchMapping("/{id}")
+    public void patch(@PathVariable long id, @RequestBody CreateNewGuestDTO dto) {
+        guestService.patch(id, dto.firstName(), dto.lastName(), dto.dateOfBirth(), dto.gender());
+    }
 }
