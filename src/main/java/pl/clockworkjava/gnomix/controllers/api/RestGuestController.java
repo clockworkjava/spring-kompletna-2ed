@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.clockworkjava.gnomix.controllers.dto.CreateNewGuestDTO;
 import pl.clockworkjava.gnomix.domain.guest.Guest;
 import pl.clockworkjava.gnomix.domain.guest.GuestService;
+import pl.clockworkjava.gnomix.domain.reservation.ReservationService;
 
 import java.util.List;
 
@@ -17,9 +18,11 @@ public class RestGuestController {
 
 
     private final GuestService guestService;
+    private final ReservationService reservationService;
 
-    public RestGuestController(GuestService guestService) {
+    public RestGuestController(GuestService guestService, ReservationService reservationService) {
         this.guestService = guestService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping
@@ -36,5 +39,16 @@ public class RestGuestController {
     @PostMapping
     public Guest create(@RequestBody CreateNewGuestDTO dto) {
         return this.guestService.create(dto.firstName(), dto.lastName(), dto.dateOfBirth(), dto.gender());
+    }
+
+    @DeleteMapping("/{id}")
+    public void remove(@PathVariable long id) {
+
+        reservationService.getAnyConfirmedReservation(id).ifPresentOrElse(
+                (r) ->  {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Guests has reservation with id: " + r.getId());
+                },
+                () -> guestService.removeById(id)
+        );
     }
 }

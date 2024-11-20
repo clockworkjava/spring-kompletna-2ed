@@ -40,6 +40,7 @@
     <table class="table table-striped">
         <thead class="thead-dark">
         <tr>
+            <th>Id</th>
             <th>Od</th>
             <th>Do</th>
             <th>Pokój</th>
@@ -49,6 +50,7 @@
         </thead>
         <tbody>
         <tr th:each="reservation : ${reservations}">
+            <td th:text="${reservation.id}"/>
             <td th:text="${reservation.fromDate}"/>
             <td th:text="${reservation.toDate}"/>
             <td th:text="${reservation.room.number}"/>

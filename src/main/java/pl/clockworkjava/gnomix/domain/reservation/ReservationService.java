@@ -10,7 +10,6 @@ import pl.clockworkjava.gnomix.domain.room.RoomService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -113,6 +112,7 @@ public class ReservationService {
 
         room.ifPresent( r -> {
             Reservation tmp = new Reservation(fromDate, toDate, r, email);
+//            tmp.confirm();
             this.repository.save(tmp);
             TempReservationCreatedEvent trce = new TempReservationCreatedEvent(this, email, tmp.getId());
             publisher.publishEvent(trce);
@@ -161,4 +161,12 @@ public class ReservationService {
         }
     }
 
+    public Optional<Reservation> getAnyConfirmedReservation(long id) {
+        return this.repository
+                .findAll()
+                .stream()
+                .filter(Reservation::isConfirmed)
+                .filter(reservation -> reservation.getOwner().getId() == id)
+                .findFirst();
+    }
 }

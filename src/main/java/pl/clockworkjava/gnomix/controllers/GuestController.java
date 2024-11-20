@@ -23,11 +23,13 @@ import java.util.Optional;
 public class GuestController {
 
     private final GuestService guestService;
-    private ReservationService reservationService;
+    private final ReservationService reservationService;
 
     @Autowired
-    public GuestController(GuestService guestService) {
+    public GuestController(GuestService guestService, ReservationService reservationService) {
+
         this.guestService = guestService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping
