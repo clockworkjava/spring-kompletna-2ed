@@ -2,26 +2,32 @@ package pl.clockworkjava.gnomix.controllers.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.clockworkjava.gnomix.controllers.dto.AvailableRoomDTO;
+import pl.clockworkjava.gnomix.controllers.dto.CreateRoomDTO;
 import pl.clockworkjava.gnomix.domain.reservation.ReservationService;
+import pl.clockworkjava.gnomix.domain.room.Bed;
+import pl.clockworkjava.gnomix.domain.room.Room;
+import pl.clockworkjava.gnomix.domain.room.RoomService;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@RequestMapping("api/rooms")
 public class RestRoomController {
 
     private final ReservationService reservationService;
+    private final RoomService roomService;
 
     @Autowired
-    public RestRoomController(ReservationService service) {
+    public RestRoomController(ReservationService service, RoomService roomService) {
         this.reservationService = service;
+        this.roomService = roomService;
     }
 
-    @GetMapping("api/getFreeRooms")
+    @GetMapping("getFreeRooms")
     public List<AvailableRoomDTO> getAvailableRooms(
             LocalDate from,
             LocalDate to,
@@ -35,5 +41,36 @@ public class RestRoomController {
         } catch (IllegalArgumentException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
+    }
+
+    @GetMapping
+    public List<Room> findAll() {
+        return this.roomService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Room findById(@PathVariable Long id) {
+        return this.roomService
+                .findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
+    }
+
+    @PostMapping
+    public Room create(@RequestBody CreateRoomDTO dto) {
+        return this.roomService.create(dto.number(), dto.beds());
+    }
+
+    @DeleteMapping("/{id}")
+    public void remove(@PathVariable Long id) {
+        reservationService.getAnyConfirmedReservationForRoom(id).ifPresentOrElse(
+                (r) ->  {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Room has reservation with id: " + r.getId());
+                },
+                () -> roomService.removeById(id)
+        );
+    }
+
+    @PutMapping("/{id}")
+    public void update(@PathVariable long id, @RequestBody CreateRoomDTO dto) {
+        this.roomService.editRoom(id, dto.number(), dto.beds());
     }
 }

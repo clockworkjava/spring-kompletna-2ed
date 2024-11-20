@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ReservationService {
@@ -162,11 +163,22 @@ public class ReservationService {
     }
 
     public Optional<Reservation> getAnyConfirmedReservation(long id) {
+        return getConfirmedReservations().stream()
+                .filter(reservation -> reservation.getOwner().getId() == id)
+                .findFirst();
+    }
+
+    public List<Reservation> getConfirmedReservations() {
         return this.repository
                 .findAll()
                 .stream()
                 .filter(Reservation::isConfirmed)
-                .filter(reservation -> reservation.getOwner().getId() == id)
+                .toList();
+    }
+
+    public Optional<Reservation> getAnyConfirmedReservationForRoom(Long id) {
+        return getConfirmedReservations().stream()
+                .filter(reservation -> Objects.equals(reservation.getRoom().getId(), id))
                 .findFirst();
     }
 }
