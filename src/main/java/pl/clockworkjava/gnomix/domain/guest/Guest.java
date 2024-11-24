@@ -1,9 +1,6 @@
 package pl.clockworkjava.gnomix.domain.guest;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -23,6 +20,9 @@ public class Guest {
     private String lastName;
     private LocalDate birthDate;
     private Gender gender;
+
+    @Column(name = "phone")
+    private String phoneNumber;
 
     Guest() {
 
@@ -47,5 +47,14 @@ public class Guest {
         if( lastName != null && !lastName.isEmpty() ) this.lastName = lastName;
         if( dateOfBirth != null ) this.birthDate = dateOfBirth;
         if( gender != null ) this.gender = gender;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+
+        if(phoneNumber.length()>20) {
+            throw new IllegalArgumentException("Phone number to long");
+        }
+
+        this.phoneNumber = phoneNumber;
     }
 }
