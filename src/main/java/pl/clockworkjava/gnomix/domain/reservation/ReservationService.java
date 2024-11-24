@@ -12,11 +12,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ReservationService {
@@ -157,9 +154,7 @@ public class ReservationService {
     }
 
     public Optional<Reservation> getAnyConfirmedReservation(long id) {
-        return getConfirmedReservations().stream()
-                .filter(reservation -> reservation.getOwner().getId() == id)
-                .findFirst();
+        return this.repository.findFirstByConfirmedAndOwner_Id(true, id);
     }
 
     public List<Reservation> getConfirmedReservations() {

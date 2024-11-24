@@ -11,4 +11,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findByRoom_Id(Long id);
     List<Reservation> findByConfirmed(boolean confirmed);
     Optional<Reservation> findFirstByConfirmedAndRoom_Id(boolean confirmed, Long id);
+    Optional<Reservation> findFirstByConfirmedAndOwner_Id(boolean confirmed, Long id);
 }

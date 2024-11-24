@@ -20,6 +20,7 @@ public class Room {
     private Long id;
 
     private String number;
+    private String description;
     @ElementCollection(targetClass = Bed.class)
     private List<Bed> beds;
 
@@ -28,6 +29,12 @@ public class Room {
     public Room(String number, List<Bed> beds) {
         this.number = number;
         this.beds = new ArrayList<>(beds);
+    }
+
+    public Room(String number, List<Bed> beds, String description) {
+        this.number = number;
+        this.beds = new ArrayList<>(beds);
+        this.description = description;
     }
 
     public int size() {
