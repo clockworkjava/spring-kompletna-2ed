@@ -101,10 +101,7 @@ public class ReservationService {
     }
 
     private List<Reservation> getAllReservationsForRoom(Room room) {
-        return this.repository.findAll()
-                .stream()
-                .filter(reservation -> Objects.equals(reservation.getRoom().getId(), room.getId()))
-                .collect(Collectors.toList());
+        return this.repository.findByRoom_Id(room.getId());
     }
 
     public boolean createTemporaryReservation(long roomId, LocalDate fromDate, LocalDate toDate, String email) {
@@ -142,10 +139,7 @@ public class ReservationService {
 
     public void removeUnconfirmedReservations() {
 
-        this.repository
-                .findAll()
-                .stream()
-                .filter(reservation -> !reservation.isConfirmed())
+        this.repository.findByConfirmed(false).stream()
                 .filter(reservation -> reservation.getCreationDate().plusMinutes(60)
                         .isBefore(LocalDateTime.now()))
                 .forEach(reservation ->
@@ -169,16 +163,10 @@ public class ReservationService {
     }
 
     public List<Reservation> getConfirmedReservations() {
-        return this.repository
-                .findAll()
-                .stream()
-                .filter(Reservation::isConfirmed)
-                .toList();
+        return this.repository.findByConfirmed(true);
     }
 
     public Optional<Reservation> getAnyConfirmedReservationForRoom(Long id) {
-        return getConfirmedReservations().stream()
-                .filter(reservation -> Objects.equals(reservation.getRoom().getId(), id))
-                .findFirst();
+        return repository.findFirstByConfirmedAndRoom_Id(true, id);
     }
 }

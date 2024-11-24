@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import pl.clockworkjava.gnomix.domain.guest.Gender;
 import pl.clockworkjava.gnomix.domain.guest.Guest;
 import pl.clockworkjava.gnomix.domain.guest.GuestService;
+import pl.clockworkjava.gnomix.domain.reservation.ReservationService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,6 +29,9 @@ public class GuestControllerTest {
 
     @MockBean
     GuestService guestService;
+
+    @MockBean
+    ReservationService reservationService;
 
     @Test
     public void testGuests() throws Exception {

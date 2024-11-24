@@ -48,6 +48,9 @@ public class RoomService {
             return new ArrayList<>();
         }
 
-        return this.repository.findBySizeGreaterThanEqual(size);
+        return this.repository.findAll()
+                .stream()
+                .filter( r -> r.size()>=size)
+                .collect(Collectors.toList());
     }
 }

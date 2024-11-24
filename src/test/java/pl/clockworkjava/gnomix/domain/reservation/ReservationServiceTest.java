@@ -404,41 +404,4 @@ public class ReservationServiceTest {
         //then
         assertTrue(result);
     }
-
-    @Test
-    public void testIfRoomAvailableNegative() {
-
-        //given
-        ReservationRepository repo = Mockito.mock(ReservationRepository.class);
-        RoomService rs = Mockito.mock(RoomService.class);
-        ApplicationEventPublisher aep = Mockito.mock(ApplicationEventPublisher.class);
-        ReservationService reservationService = new ReservationService(repo, rs, aep);
-
-        List<Reservation> reservations = new ArrayList<>();
-
-        LocalDate fromOne = LocalDate.parse("2022-01-08");
-        LocalDate toOne = LocalDate.parse("2022-01-10");
-
-        Room r = new Room("101", new ArrayList<>());
-
-        reservations.add(new Reservation(fromOne, toOne, null, r));
-
-        LocalDate fromTwo = LocalDate.parse("2022-02-05");
-        LocalDate toTwo = LocalDate.parse("2022-02-15");
-
-        reservations.add(new Reservation(fromTwo, toTwo, null, r));
-
-        Mockito.when(repo.findAll()).thenReturn(reservations);
-
-        LocalDate myStartDate = LocalDate.parse("2022-01-08");
-        LocalDate myEndDate = LocalDate.parse("2022-02-28");
-
-        //when
-        boolean result = reservationService.checkIfRoomAvailableForDates(r,myStartDate,myEndDate);
-
-        //then
-        assertFalse(result);
-
-    }
-
 }

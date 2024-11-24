@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import pl.clockworkjava.gnomix.controllers.dto.AvailableRoomDTO;
 import pl.clockworkjava.gnomix.domain.reservation.ReservationService;
 import pl.clockworkjava.gnomix.domain.room.Room;
+import pl.clockworkjava.gnomix.domain.room.RoomService;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,6 +37,9 @@ public class RestRoomControllerTest {
     @MockBean
     private ReservationService reservationService;
 
+    @MockBean
+    private RoomService roomService;
+
     @Autowired
     private ObjectMapper mapper;
 
@@ -43,8 +47,7 @@ public class RestRoomControllerTest {
     public void getFreeRoomsHappyPath() throws Exception {
 
         //given
-
-        String url = "/api/getFreeRooms?from=2022-03-12&to=2022-03-13&size=2";
+        String url = "/api/rooms/getFreeRooms?from=2022-03-12&to=2022-03-13&size=2";
 
         LocalDate fromDate = LocalDate.parse("2022-03-12");
         LocalDate toDate = LocalDate.parse("2022-03-13");
@@ -83,7 +86,7 @@ public class RestRoomControllerTest {
     @Test
     public void getFreeRoomsInvalidSize() throws Exception {
 
-        String url = "/api/getFreeRooms?from=2022-03-12&to=2022-03-13&size=20";
+        String url = "/api/rooms/getFreeRooms?from=2022-03-12&to=2022-03-13&size=20";
 
         MockHttpServletRequestBuilder request = get(url);
 
