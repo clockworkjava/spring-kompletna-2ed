@@ -1,5 +1,6 @@
 package pl.clockworkjava.gnomix.controllers.api;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.clockworkjava.gnomix.controllers.dto.AvailableRoomDTO;
 import pl.clockworkjava.gnomix.controllers.dto.CreateRoomDTO;
 import pl.clockworkjava.gnomix.domain.reservation.ReservationService;
-import pl.clockworkjava.gnomix.domain.room.Bed;
 import pl.clockworkjava.gnomix.domain.room.Room;
 import pl.clockworkjava.gnomix.domain.room.RoomService;
 
@@ -59,6 +59,8 @@ public class RestRoomController {
         return this.roomService.create(dto.number(), dto.beds());
     }
 
+    @ApiResponse(responseCode = "200", description = "OK, removed")
+    @ApiResponse(responseCode = "403", description = "Unable to remove the room, there is connected reservation")
     @DeleteMapping("/{id}")
     public void remove(@PathVariable Long id) {
         reservationService.getAnyConfirmedReservationForRoom(id).ifPresentOrElse(
