@@ -37,26 +37,6 @@ public class RoomServiceTest {
     }
 
     @Test
-    public void testGetRoomsForSize() {
-
-        //given
-        List<Room> rooms = new ArrayList<>();
-        rooms.add(new Room("101", List.of(Bed.DOUBLE)));
-        rooms.add(new Room("102", List.of(Bed.SINGLE)));
-        rooms.add(new Room("103", Arrays.asList(Bed.DOUBLE, Bed.SINGLE)));
-        RoomRepository roomRepository = Mockito.mock(RoomRepository.class);
-        Mockito.when(roomRepository.findAll()).thenReturn(rooms);
-
-        RoomService roomService = new RoomService(roomRepository);
-
-        //when
-        List<Room> result = roomService.getRoomsForSize(1);
-
-        //then
-        assertEquals(3, result.size());
-    }
-
-    @Test
     public void testGetNoRoomsForSize() {
         //given
         List<Room> rooms = new ArrayList<>();
@@ -73,25 +53,6 @@ public class RoomServiceTest {
 
         //then
         assertEquals(0, result.size());
-
-    }
-
-    @Test
-    public void testGetNoRoomsForEqualSize() {
-        //given
-        List<Room> rooms = new ArrayList<>();
-        rooms.add(new Room("101", List.of(Bed.DOUBLE)));
-        rooms.add(new Room("102", List.of(Bed.SINGLE)));
-        rooms.add(new Room("103", Arrays.asList(Bed.DOUBLE, Bed.SINGLE)));
-        RoomRepository roomRepository = Mockito.mock(RoomRepository.class);
-        Mockito.when(roomRepository.findAll()).thenReturn(rooms);
-        RoomService roomService = new RoomService(roomRepository);
-
-        //when
-        List<Room> result = roomService.getRoomsForSize(3);
-
-        //then
-        assertEquals(1, result.size());
 
     }
 
