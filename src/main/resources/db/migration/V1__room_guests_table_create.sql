@@ -6,7 +6,7 @@ CREATE TABLE room (
 
 CREATE TABLE room_beds (room_id bigint not null, beds integer);
 
-ALTER TABLE room_beds ADD constraint FKmgdse5awswl23tm83cvmaerh6 foreign key (room_id) references room;
+ALTER TABLE room_beds ADD constraint FKmgdse5awswl23tm83cvmaerh6 foreign key (room_id) references room(id);
 
 CREATE TABLE guest (
     id bigint not null auto_increment,
