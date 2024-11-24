@@ -1,5 +1,6 @@
 package pl.clockworkjava.gnomix.domain.room;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class Room {
         return beds.stream().mapToInt(Bed::getSize).sum();
     }
 
+    @JsonIgnore
     public String getBedsAsString() {
         return this.beds.stream().map(Bed::getSize).map(String::valueOf).collect(Collectors.joining("+"));
     }
