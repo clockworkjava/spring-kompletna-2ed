@@ -1,16 +1,17 @@
 package pl.clockworkjava.gnomix.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.clockworkjava.gnomix.security.model.UsernameAndPasswordAuthenticationRequest;
 
 
 import java.io.IOException;
@@ -28,14 +29,20 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        try {
+            UsernameAndPasswordAuthenticationRequest authenticationRequest = new ObjectMapper()
+                    .readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
 
-        log.info("Login info {} {}", username, password);
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                    authenticationRequest.getUsername(),
+                    authenticationRequest.getPassword()
+            );
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-
-        return authenticationManager.authenticate(token);
+            Authentication authenticate = authenticationManager.authenticate(token);
+            return authenticate;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
