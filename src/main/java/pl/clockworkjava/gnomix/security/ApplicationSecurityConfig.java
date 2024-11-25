@@ -12,10 +12,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ApplicationSecurityConfig  {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests( authorize -> authorize.anyRequest().authenticated())
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .authorizeHttpRequests( http ->
+                        http
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                                .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
-        return http.build();
+        return httpSecurity.build();
     }
 }
