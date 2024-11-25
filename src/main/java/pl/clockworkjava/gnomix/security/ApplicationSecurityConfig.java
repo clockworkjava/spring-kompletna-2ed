@@ -30,7 +30,7 @@ public class ApplicationSecurityConfig  {
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .ignoringRequestMatchers("/api/**"))
-                .httpBasic(Customizer.withDefaults());
+                .formLogin(Customizer.withDefaults());
         return httpSecurity.build();
     }
 
