@@ -35,7 +35,7 @@ public class ApplicationSecurityConfig  {
         UserDetails user = User.builder()
                 .username("pawelcwik")
                 .password(passwordEncoder().encode("pawelcwik"))
-                .roles("OWNER").build();
+                .roles("MANAGER").build();
 
         UserDetails user2 = User.builder()
                 .username("ali")
