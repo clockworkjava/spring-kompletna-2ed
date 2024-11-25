@@ -56,19 +56,25 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserPrincipal user = (UserPrincipal) authResult.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256("qwevcxblkdfssdffsfsgfdgas".getBytes());
+        Algorithm algorithm = SecurityUtils.getAlgorithm();
         String accessToken = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (15 * 60 * 1000)))
                 .withIssuer(request.getRequestURI())
-                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withClaim("roles", user.getAuthorities().stream().map( role -> {
+                    String name = role.getAuthority();
+                    return "ROLE_"+name;
+                }).collect(Collectors.toList()))
                 .sign(algorithm);
 
         String refreshToken = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (120 * 60 * 1000)))
                 .withIssuer(request.getRequestURI())
-                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withClaim("roles", user.getAuthorities().stream().map( role -> {
+                    String name = role.getAuthority();
+                    return "ROLE_"+name;
+                }).collect(Collectors.toList()))
                 .sign(algorithm);
 
         response.addHeader("access_token", accessToken);

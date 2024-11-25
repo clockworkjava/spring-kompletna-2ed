@@ -35,6 +35,7 @@ public class ApplicationSecurityConfig  {
                                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         httpSecurity.addFilterBefore(new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new CustomAuthorizationFilter(), CustomAuthenticationFilter.class);
 
 
         return httpSecurity.build();
