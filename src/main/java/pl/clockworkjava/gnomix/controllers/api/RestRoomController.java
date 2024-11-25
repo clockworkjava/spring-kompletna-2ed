@@ -3,6 +3,7 @@ package pl.clockworkjava.gnomix.controllers.api;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.clockworkjava.gnomix.controllers.dto.AvailableRoomDTO;
@@ -44,21 +45,25 @@ public class RestRoomController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_RECEPTION')")
     public List<Room> findAll() {
         return this.roomService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_RECEPTION')")
     public Room findById(@PathVariable Long id) {
         return this.roomService
                 .findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public Room create(@RequestBody CreateRoomDTO dto) {
         return this.roomService.create(dto.number(), dto.beds());
     }
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @ApiResponse(responseCode = "200", description = "OK, removed")
     @ApiResponse(responseCode = "403", description = "Unable to remove the room, there is connected reservation")
     @DeleteMapping("/{id}")
@@ -71,6 +76,7 @@ public class RestRoomController {
         );
     }
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping("/{id}")
     public void update(@PathVariable long id, @RequestBody CreateRoomDTO dto) {
         this.roomService.editRoom(id, dto.number(), dto.beds());
