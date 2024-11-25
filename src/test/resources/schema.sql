@@ -2,7 +2,7 @@ CREATE TABLE guest (id bigint not null auto_increment, birth_date date, customer
 
 CREATE TABLE reservation (id bigint not null auto_increment, confirmed boolean not null, creation_date timestamp, email varchar(255), from_date date, to_date date, owner_id bigint, room_id bigint, primary key (id))
 
-CREATE TABLE room (id bigint not null auto_increment, number varchar(255), primary key (id))
+CREATE TABLE room (id bigint not null auto_increment, number varchar(255), description varchar(255), primary key (id))
 
 CREATE TABLE room_beds (room_id bigint not null, beds integer)
 

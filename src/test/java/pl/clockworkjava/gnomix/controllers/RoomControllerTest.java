@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import pl.clockworkjava.gnomix.domain.room.RoomService;
@@ -15,12 +16,14 @@ import pl.clockworkjava.gnomix.domain.room.Room;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @WebMvcTest(RoomController.class)
+@WithMockUser(username = "pawelcwik", roles = {"MANAGER"} )
 public class RoomControllerTest {
 
     @Autowired
@@ -51,7 +54,7 @@ public class RoomControllerTest {
         MockHttpServletRequestBuilder request =
                 post("/rooms")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                        .content(postContent);
+                        .content(postContent).with(csrf());
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
@@ -69,7 +72,7 @@ public class RoomControllerTest {
         MockHttpServletRequestBuilder request =
                 post("/rooms")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                        .content(postContent);
+                        .content(postContent).with(csrf());
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
