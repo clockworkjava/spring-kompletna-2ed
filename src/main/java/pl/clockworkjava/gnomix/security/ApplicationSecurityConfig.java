@@ -13,9 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableMethodSecurity
 public class ApplicationSecurityConfig  {
 
@@ -24,8 +25,11 @@ public class ApplicationSecurityConfig  {
         httpSecurity
                 .authorizeHttpRequests( http ->
                         http
-                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/error/**", "/error").permitAll()
                                 .anyRequest().authenticated())
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .ignoringRequestMatchers("/api/**"))
                 .httpBasic(Customizer.withDefaults());
         return httpSecurity.build();
     }
