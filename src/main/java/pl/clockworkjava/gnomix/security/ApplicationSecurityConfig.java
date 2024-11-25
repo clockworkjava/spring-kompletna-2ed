@@ -28,7 +28,7 @@ public class ApplicationSecurityConfig  {
         httpSecurity
                 .authorizeHttpRequests( http ->
                         http
-                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/error/**", "/error", "/login", "/", "/api/login").permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/error/**", "/error", "/login", "/", "/api/login", "/api/refreshtoken").permitAll()
                                 .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session
