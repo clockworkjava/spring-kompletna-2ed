@@ -1,10 +1,10 @@
 package pl.clockworkjava.gnomix.domain.reservation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import pl.clockworkjava.gnomix.domain.guest.Guest;
-import pl.clockworkjava.gnomix.domain.reservation.events.TempReservationCreatedEvent;
 import pl.clockworkjava.gnomix.domain.room.Room;
 import pl.clockworkjava.gnomix.domain.room.RoomService;
 
@@ -21,6 +21,15 @@ public class ReservationService {
     private final ReservationRepository repository;
     private final RoomService roomService;
     private final ApplicationEventPublisher publisher;
+
+    @Value("${gnomix.protocol}")
+    private String protocol;
+
+    @Value("${gnomix.domain}")
+    private String domain;
+
+    @Value("${gnomix.port}")
+    private String port;
 
     @Autowired
     public ReservationService(
@@ -101,19 +110,17 @@ public class ReservationService {
         return this.repository.findByRoom_Id(room.getId());
     }
 
-    public boolean createTemporaryReservation(long roomId, LocalDate fromDate, LocalDate toDate, String email) {
+    public String createTemporaryReservation(long roomId, LocalDate fromDate, LocalDate toDate, String email) {
 
         Optional<Room> room = this.roomService.findById(roomId);
 
-        room.ifPresent( r -> {
-            Reservation tmp = new Reservation(fromDate, toDate, r, email);
-//            tmp.confirm();
+        if(room.isPresent()) {
+            Reservation tmp = new Reservation(fromDate, toDate, room.get(), email);
             this.repository.save(tmp);
-            TempReservationCreatedEvent trce = new TempReservationCreatedEvent(this, email, tmp.getId());
-            publisher.publishEvent(trce);
-        });
-
-        return room.isPresent();
+            return String.format("%s://%s:%s/%s/%d", protocol, domain, port, "/api/confirmReservation", tmp.getId());
+        } else {
+            return null;
+        }
     }
 
     public boolean confirmReservation(long reservationId) {
